@@ -9,13 +9,15 @@ If you don't have pyOpenGL or opensimplex, then:
     - pip install opensimplex
 """
 
-import numpy as np
-from opensimplex import OpenSimplex
-import pyqtgraph.opengl as gl
-from pyqtgraph.Qt import QtCore, QtGui
 import struct
-import pyaudio
 import sys
+
+import numpy as np
+import pyqtgraph.opengl as gl
+from PySide6.QtWidgets import QApplication
+from opensimplex import OpenSimplex
+import pyaudio
+import pyqtgraph.Qt
 
 
 class Terrain(object):
@@ -25,7 +27,7 @@ class Terrain(object):
         """
 
         # setup the view window
-        self.app = QtGui.QApplication(sys.argv)
+        self.app = QApplication(sys.argv)
         self.window = gl.GLViewWidget()
         self.window.setWindowTitle('Terrain')
         self.window.setGeometry(0, 110, 1920, 1080)
@@ -128,14 +130,14 @@ class Terrain(object):
         """
         get the graphics window open and setup
         """
-        if (sys.flags.interactive != 1) or not hasattr(QtCore, 'PYQT_VERSION'):
-            QtGui.QApplication.instance().exec_()
+        if (sys.flags.interactive != 1) or not hasattr(pyqtgraph.Qt.QtCore, 'PYQT_VERSION'):
+        QApplication.instance().exec_()
 
     def animation(self, frametime=10):
         """
         calls the update method to run in a loop
         """
-        timer = QtCore.QTimer()
+        timer = pyqtgraph.Qt.QtCore.QTimer()
         timer.timeout.connect(self.update)
         timer.start(frametime)
         self.start()
