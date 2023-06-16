@@ -1,0 +1,6 @@
+numpy~=1.24.3
+pyqtgraph~=0.13.3
+PySide6~=6.5.1.1
+opensimplex~=0.4.4
+pyopengl
+PyOpenGL_accelerate

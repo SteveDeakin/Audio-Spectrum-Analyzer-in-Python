@@ -10,8 +10,9 @@ If you don't have pyOpenGL or opensimplex, then:
 """
 
 import numpy as np
-from PySide6.QtWidgets import QApplication
-from pyqtgraph.Qt import QtCore, QtGui
+import PySide6.QtWidgets
+from PySide6.QtCore import QTimer
+from pyqtgraph.Qt import QtCore
 import pyqtgraph.opengl as gl
 import sys
 from opensimplex import OpenSimplex
@@ -24,9 +25,10 @@ class Terrain(object):
         """
 
         # setup the view window
-        self.app = QApplication(sys.argv)
+        self.timer = None
+        self.app = PySide6.QtWidgets.QApplication(sys.argv)
         self.w = gl.GLViewWidget()
-        self.w.setGeometry(0, 110, 1920, 1080)
+        self.w.setGeometry(0, 110, 1920/2, 1080/2)
         self.w.show()
         self.w.setWindowTitle('Terrain')
         self.w.setCameraPosition(distance=30, elevation=8)
@@ -104,13 +106,15 @@ class Terrain(object):
         get the graphics window open and setup
         """
         if (sys.flags.interactive != 1) or not hasattr(QtCore, 'PYQT_VERSION'):
-            QApplication.instance().exec()
+            PySide6.QtWidgets.QApplication.instance().exec()
 
+    # noinspection PyUnresolvedReferences
+    # connect is not found for some reason but still works fine in PyCharm and VSCode
     def animation(self):
         """
         calls the update method to run in a loop
         """
-        timer = QtCore.QTimer()
+        timer = QTimer()
         timer.timeout.connect(self.update)
         timer.start(10)
         self.start()
