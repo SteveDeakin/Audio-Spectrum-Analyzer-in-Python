@@ -14,6 +14,7 @@ import sys
 
 import numpy as np
 import pyqtgraph.opengl as gl
+from PySide6.QtCore import QTimer
 from PySide6.QtWidgets import QApplication
 from opensimplex import OpenSimplex
 import pyaudio
@@ -30,7 +31,7 @@ class Terrain(object):
         self.app = QApplication(sys.argv)
         self.window = gl.GLViewWidget()
         self.window.setWindowTitle('Terrain')
-        self.window.setGeometry(0, 110, 1920, 1080)
+        self.window.setGeometry(0, 110, int(1920/1.5), int(1080/1.5))
         self.window.setCameraPosition(distance=30, elevation=12)
         self.window.show()
 
@@ -55,7 +56,7 @@ class Terrain(object):
         )
 
         # perlin noise object
-        self.noise = OpenSimplex()
+        self.noise = OpenSimplex(1)
 
         # create the veritices array
         verts, faces, colors = self.mesh()
@@ -86,7 +87,7 @@ class Terrain(object):
         colors = []
         verts = np.array([
             [
-                x, y, wf_data[xid][yid] * self.noise.noise2d(x=xid / 5 + offset, y=yid / 5 + offset)
+                x, y, wf_data[xid][yid] * self.noise.noise2(x=xid / 5 + offset, y=yid / 5 + offset)
             ] for xid, x in enumerate(self.xpoints) for yid, y in enumerate(self.ypoints)
         ], dtype=np.float32)
 
@@ -131,13 +132,14 @@ class Terrain(object):
         get the graphics window open and setup
         """
         if (sys.flags.interactive != 1) or not hasattr(pyqtgraph.Qt.QtCore, 'PYQT_VERSION'):
-        QApplication.instance().exec_()
+            QApplication.instance().exec()
 
+    # noinspection PyUnresolvedReferences
     def animation(self, frametime=10):
         """
         calls the update method to run in a loop
         """
-        timer = pyqtgraph.Qt.QtCore.QTimer()
+        timer = QTimer()
         timer.timeout.connect(self.update)
         timer.start(frametime)
         self.start()

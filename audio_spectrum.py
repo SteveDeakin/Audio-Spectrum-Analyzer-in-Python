@@ -1,19 +1,5 @@
-"""
-    Notebook for streaming data from a microphone in realtime
 
-    audio is captured using pyaudio
-    then converted from binary data to ints using struct
-    then displayed using matplotlib
-
-    scipy.fftpack computes the FFT
-
-    if you don't have pyaudio, then run
-
-    >>> pip install pyaudio
-
-    note: with 2048 samples per chunk, I'm getting 20FPS
-    when also running the spectrum, its about 15FPS
-"""
+import matplotlib as mpl
 import matplotlib.pyplot as plt
 import numpy as np
 import pyaudio
@@ -27,6 +13,8 @@ import time
 
 class AudioStream(object):
     def __init__(self):
+
+        mpl.use("Qt5Agg")
 
         # stream constants
         self.CHUNK = 1024 * 2
@@ -94,7 +82,7 @@ class AudioStream(object):
         while not self.pause:
             data = self.stream.read(self.CHUNK)
             data_int = struct.unpack(str(2 * self.CHUNK) + 'B', data)
-            data_np = np.array(data_int, dtype='b')[::2] + 128
+            data_np = np.array(data_int, dtype='b')[::2] # + 128
 
             self.line.set_ydata(data_np)
 
