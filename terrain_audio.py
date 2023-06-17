@@ -7,6 +7,10 @@ If you don't have pyOpenGL or opensimplex, then:
 
     - conda install -c anaconda pyopengl
     - pip install opensimplex
+
+    - On Mac
+      brew install portaudio
+
 """
 
 import struct

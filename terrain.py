@@ -7,15 +7,17 @@ If you don't have pyOpenGL or opensimplex, then:
 
     - conda install -c anaconda pyopengl
     - pip install opensimplex
+
 """
 
-import numpy as np
-import PySide6.QtWidgets
-from PySide6.QtCore import QTimer
-from pyqtgraph.Qt import QtCore
-import pyqtgraph.opengl as gl
 import sys
+
+import PySide6.QtWidgets
+import numpy as np
+import pyqtgraph.opengl as gl
+from PySide6.QtCore import QTimer
 from opensimplex import OpenSimplex
+from pyqtgraph.Qt import QtCore
 
 
 class Terrain(object):
