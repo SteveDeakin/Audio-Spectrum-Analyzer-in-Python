@@ -1,14 +1,8 @@
 # -*- coding: utf-8 -*-
-"""
-    Animated 3D sinc function
 
-    requires:
-        1. pyqtgraph
-            - download from here http://www.pyqtgraph.org/
-        2. pyopenGL
-            - if you have Anaconda, run the following command
-            >>> conda install -c anaconda pyopengl
-"""
+import pyqtgraph.opengl as gl
+from PySide6.QtCore import QTimer
+from PySide6.QtWidgets import QApplication
 
 from pyqtgraph.Qt import QtCore, QtGui
 import pyqtgraph.opengl as gl
@@ -21,7 +15,7 @@ import time
 class Visualizer(object):
     def __init__(self):
         self.traces = dict()
-        self.app = QtGui.QApplication(sys.argv)
+        self.app = QApplication(sys.argv)
         self.w = gl.GLViewWidget()
         self.w.opts['distance'] = 40
         self.w.setWindowTitle('pyqtgraph example: GLLinePlotItem')
@@ -49,7 +43,7 @@ class Visualizer(object):
 
     def start(self):
         if (sys.flags.interactive != 1) or not hasattr(QtCore, 'PYQT_VERSION'):
-            QtGui.QApplication.instance().exec_()
+            QApplication.instance().exec()
 
     def set_plotdata(self, name, points, color, width):
         self.traces[name].setData(pos=points, color=color, width=width)

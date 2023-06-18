@@ -1,3 +1,7 @@
+import pyqtgraph.opengl as gl
+from PySide6.QtCore import QTimer
+from PySide6.QtWidgets import QApplication
+
 import numpy as np
 from pyqtgraph.Qt import QtGui, QtCore
 import pyqtgraph as pg
@@ -16,7 +20,7 @@ class AudioStream(object):
         # pyqtgraph stuff
         pg.setConfigOptions(antialias=True)
         self.traces = dict()
-        self.app = QtGui.QApplication(sys.argv)
+        self.app = QApplication(sys.argv)
         self.win = pg.GraphicsWindow(title='Spectrum Analyzer')
         self.win.setWindowTitle('Spectrum Analyzer')
         self.win.setGeometry(5, 115, 1910, 1070)
