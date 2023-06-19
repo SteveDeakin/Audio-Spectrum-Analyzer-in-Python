@@ -21,7 +21,7 @@ class AudioStream(object):
         pg.setConfigOptions(antialias=True)
         self.traces = dict()
         self.app = QApplication(sys.argv)
-        self.win = pg.GraphicsWindow(title='Spectrum Analyzer')
+        self.win = pg.GraphicsLayoutWidget(show=True, title='Spectrum Analyzer')
         self.win.setWindowTitle('Spectrum Analyzer')
         self.win.setGeometry(5, 115, 1910, 1070)
 
@@ -64,11 +64,11 @@ class AudioStream(object):
         )
         # waveform and spectrum x points
         self.x = np.arange(0, 2 * self.CHUNK, 2)
-        self.f = np.linspace(0, self.RATE / 2, self.CHUNK / 2)
+        self.f = np.linspace(0, int(self.RATE / 2), int(self.CHUNK / 2))
 
     def start(self):
         if (sys.flags.interactive != 1) or not hasattr(QtCore, 'PYQT_VERSION'):
-            QtGui.QApplication.instance().exec_()
+            QApplication.instance().exec()
 
     def set_plotdata(self, name, data_x, data_y):
         if name in self.traces:
@@ -87,7 +87,7 @@ class AudioStream(object):
 
     def update(self):
         wf_data = self.stream.read(self.CHUNK)
-        wf_data = struct.unpack(str(2 * self.CHUNK) + 'B', wf_data)
+        wf_data = struct.unpack(str(2 * self.CHUNK) + 'b', wf_data)
         wf_data = np.array(wf_data, dtype='b')[::2] + 128
         self.set_plotdata(name='waveform', data_x=self.x, data_y=wf_data,)
 
