@@ -78,7 +78,7 @@ class Terrain(object):
     def mesh(self, offset=0, height=2.5, wf_data=None):
 
         if wf_data is not None:
-            wf_data = struct.unpack(str(2 * self.CHUNK) + 'B', wf_data)
+            wf_data = struct.unpack(str(2 * self.CHUNK) + 'b', wf_data)
             wf_data = np.array(wf_data, dtype='b')[::2] + 128
             wf_data = np.array(wf_data, dtype='int32') - 128
             wf_data = wf_data * 0.04

@@ -81,7 +81,7 @@ class AudioStream(object):
 
         while not self.pause:
             data = self.stream.read(self.CHUNK)
-            data_int = struct.unpack(str(2 * self.CHUNK) + 'B', data)
+            data_int = struct.unpack(str(2 * self.CHUNK) + 'b', data)
             data_np = np.array(data_int, dtype='b')[::2] + 128
 
             self.line.set_ydata(data_np)
